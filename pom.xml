@@ -54,6 +54,12 @@
 			<artifactId>gwt-codeserver</artifactId>
 			<version>${gwt.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
+			<version>${gwt.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.spring4gwt</groupId>
@@ -192,6 +198,11 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>

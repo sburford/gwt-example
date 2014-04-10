@@ -3,8 +3,15 @@
 <module rename-to="Gwt_example">
 
 	<inherits name='com.google.gwt.user.User'/>
+	<inherits name="com.google.gwt.resources.Resources"/>
+	<inherits name='com.google.gwt.i18n.I18N'/>
+	<inherits name="com.google.gwt.logging.Logging"/>
+	<inherits name="com.google.web.bindery.requestfactory.RequestFactory"/>
 
 	<entry-point class='it.ms.gwt_example.client.Gwt_example'/>
+
+	<set-property name="gwt.logging.logLevel" value="ALL"/>
+	<set-property name="gwt.logging.enabled" value="FALSE"/>
 
 	<source path="client"/>
 	<source path="shared"/>
