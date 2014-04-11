@@ -2,6 +2,10 @@ package it.ms.gwt_example.client;
 
 import com.google.common.base.Strings;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
@@ -20,6 +24,19 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 
 	public void onModuleLoad() {
 
+		setUpUncaughtExceptionHandling();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+
+				afterModuleLoaded();
+			}
+		});
+	}
+
+	private void afterModuleLoaded() {
+
 		content = new VerticalPanel();
 		content.setWidth("100%");
 		content.setHeight("100%");
@@ -32,6 +49,18 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 		RootLayoutPanel.get().add(content);
 		startHistoryHandling();
 		setUpEventHandling();
+	}
+
+	private void setUpUncaughtExceptionHandling() {
+
+		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+
+			@Override
+			public void onUncaughtException(final Throwable e) {
+
+                // TODO add uncaught exception handling
+			}
+		});
 	}
 
 	private void startHistoryHandling() {
