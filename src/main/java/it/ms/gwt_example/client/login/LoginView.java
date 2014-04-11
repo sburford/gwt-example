@@ -20,6 +20,8 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
+import it.ms.gwt_example.client.ServiceFacade;
+import it.ms.gwt_example.client.CAsyncCallback;
 import it.ms.gwt_example.client.Messages;
 import it.ms.gwt_example.client.PageToken;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
@@ -108,8 +110,23 @@ public final class LoginView extends Composite {
 
 				String username = usernameField.getValue();
 				String password = passwordField.getValue();
-				Window.alert("Username: " + username + " - Password:" + password);
-				History.newItem(PageToken.MAIN.toString());
+				ServiceFacade.instance().login().isAllowedAccess(username, password, new CAsyncCallback<Boolean>() {
+
+					@Override
+					public void onSuccess(final Boolean allowed) {
+
+						if (allowed == null) {
+							throw new IllegalStateException("Login RPC call should never return null");
+						}
+						if (allowed) {
+							History.newItem(PageToken.MAIN.toString());
+						} else {
+							Window.alert(Messages.instance().loginErrorsInvalidCredentials());
+							passwordField.setValue(null);
+						}
+					}
+				});
+
 			}
 		});
 	}

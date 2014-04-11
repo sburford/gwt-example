@@ -8,6 +8,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
@@ -41,7 +42,7 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 		content.setWidth("100%");
 		content.setHeight("100%");
 		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		// TODO de-comment this if you want the whole application to be vertically centered
+		// de-comment this if you want the whole application to be vertically centered
 		// vertical.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
 		content.add(new LoginView());
@@ -56,9 +57,10 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
 			@Override
-			public void onUncaughtException(final Throwable e) {
+			public void onUncaughtException(final Throwable throwable) {
 
-                // TODO add uncaught exception handling
+				Throwable unwrapped = unwrap(throwable);
+				// TODO send the exception to the back-end for logging
 			}
 		});
 	}
@@ -89,5 +91,16 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 		content.clear();
 		Widget page = PagesMapping.instance().pageFor(token);
 		content.add(page);
+	}
+
+	private Throwable unwrap(final Throwable throwable) {
+
+		if (throwable instanceof UmbrellaException) {
+			UmbrellaException ue = (UmbrellaException) throwable;
+			if (ue.getCauses().size() == 1) {
+				return unwrap(ue.getCauses().iterator().next());
+			}
+		}
+		return throwable;
 	}
 }

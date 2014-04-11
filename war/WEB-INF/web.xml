@@ -7,8 +7,7 @@
 
 	<servlet>
 		<servlet-name>springServlet</servlet-name>
-		<servlet-class>org.spring4gwt.server.SpringGwtRemoteServiceServlet
-		</servlet-class>
+		<servlet-class>org.spring4gwt.server.SpringGwtRemoteServiceServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springServlet</servlet-name>
@@ -16,9 +15,7 @@
 	</servlet-mapping>
 
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 </web-app>
