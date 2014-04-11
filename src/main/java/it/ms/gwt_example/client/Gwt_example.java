@@ -1,43 +1,64 @@
 package it.ms.gwt_example.client;
 
-import it.ms.gwt_example.client.login.LoginView;
-
+import com.google.common.base.Strings;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.VerticalAlign;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import it.ms.gwt_example.client.login.LoginView;
 
-public final class Gwt_example implements EntryPoint {
+public final class Gwt_example implements EntryPoint, ValueChangeHandler<String> {
+
+	private VerticalPanel content;
 
 	public void onModuleLoad() {
 
-        VerticalPanel vertical = new VerticalPanel();
-        vertical.setWidth("100%");
-        vertical.setHeight("100%");
-        vertical.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-        // TODO de-comment this if you want the whole application to be vertically centered
-//        vertical.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		content = new VerticalPanel();
+		content.setWidth("100%");
+		content.setHeight("100%");
+		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		// TODO de-comment this if you want the whole application to be vertically centered
+		// vertical.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-        vertical.add(new LoginView());
+		content.add(new LoginView());
 
-        RootLayoutPanel.get().add(vertical);
-        startHistoryHandling();
-        setUpEventHandling();
+		RootLayoutPanel.get().add(content);
+		startHistoryHandling();
+		setUpEventHandling();
 	}
 
-    private void startHistoryHandling() {
+	private void startHistoryHandling() {
 
-    }
+		History.addValueChangeHandler(this);
+		History.fireCurrentHistoryState();
 
-    private void setUpEventHandling() {
+		Window.addWindowClosingHandler(new ClosingHandler() {
 
-    }
+			public void onWindowClosing(final ClosingEvent event) {
+
+				event.setMessage("Ran out of history. Now leaving application, is that OK ? ");
+			}
+		});
+	}
+
+	private void setUpEventHandling() {
+
+	}
+
+	@Override
+	public void onValueChange(final ValueChangeEvent<String> event) {
+
+		String tokenStr = (event.getValue() != null) ? event.getValue().trim().toUpperCase() : null;
+		PageToken token = (!Strings.isNullOrEmpty(tokenStr)) ? PageToken.valueOf(tokenStr) : PageToken.LOGIN;
+		content.clear();
+		Widget page = PagesMapping.instance().pageFor(token);
+		content.add(page);
+	}
 }

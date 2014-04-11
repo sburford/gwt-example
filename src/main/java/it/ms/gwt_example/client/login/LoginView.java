@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -19,6 +20,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
+import it.ms.gwt_example.client.PageToken;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
 import it.ms.gwt_example.client.components.HFlowPanel;
 import it.ms.gwt_example.client.components.VFlowPanel;
@@ -106,6 +108,7 @@ public final class LoginView extends Composite {
                 String username = usernameField.getValue();
                 String password = passwordField.getValue();
                 Window.alert("Username: " + username + " - Password:" + password);
+                History.newItem(PageToken.MAIN.toString());
             }
         });
     }

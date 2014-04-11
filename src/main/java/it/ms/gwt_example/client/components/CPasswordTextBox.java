@@ -13,7 +13,7 @@ public final class CPasswordTextBox extends PasswordTextBox {
 
     private String encrypt(final String clearText) {
 
-        // TODO encrypt (SHA512?)
+        // TODO encrypt (SHA512 ?)
         return clearText;
     }
 }

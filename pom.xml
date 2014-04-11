@@ -16,7 +16,7 @@
 		<spring.version>4.0.3.RELEASE</spring.version>
 		<spring.test.version>4.0.3.RELEASE</spring.test.version>
 		<joda.time.version>2.3</joda.time.version>
-		<guava.version>r09</guava.version>
+		<guava.version>16.0.1</guava.version>
 		<javax.inject.version>1</javax.inject.version>
 		<apache.commons.version>3.2.1</apache.commons.version>
 		<apache.commons.io.version>2.4</apache.commons.io.version>
@@ -76,6 +76,11 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava-gwt</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
