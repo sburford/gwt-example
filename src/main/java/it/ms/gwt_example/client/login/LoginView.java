@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
+import it.ms.gwt_example.client.Messages;
 import it.ms.gwt_example.client.PageToken;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
 import it.ms.gwt_example.client.components.HFlowPanel;
@@ -65,27 +66,27 @@ public final class LoginView extends Composite {
 		Panel vertical = createCredentialsPanel();
 		panel.add(vertical, DockPanel.CENTER);
 
-		signInButton = new Button("Sign In");
-        panel.add(signInButton, DockPanel.SOUTH);
+		signInButton = new Button(Messages.instance().loginSignInButtonLabel());
+		panel.add(signInButton, DockPanel.SOUTH);
 
-        defineComponentsBehaviour();
+		defineComponentsBehaviour();
 
 		initWidget(panel);
 	}
 
-    private Panel createCredentialsPanel() {
+	private Panel createCredentialsPanel() {
 
 		FlowPanel vertical = new VFlowPanel();
 
 		FlowPanel usernameRow = new HFlowPanel();
-		Label usernameLabel = new Label("Username");
+		Label usernameLabel = new Label(Messages.instance().loginUsernameLabel());
 		usernameField = new TextBox();
 		usernameRow.add(usernameLabel);
 		usernameRow.add(usernameField);
 		vertical.add(usernameRow);
 
 		FlowPanel passwordRow = new HFlowPanel();
-		Label passwordLabel = new Label("Password");
+		Label passwordLabel = new Label(Messages.instance().loginPasswordLabel());
 		passwordField = new CPasswordTextBox();
 		passwordRow.add(passwordLabel);
 		passwordRow.add(passwordField);
@@ -94,22 +95,22 @@ public final class LoginView extends Composite {
 		return vertical;
 	}
 
-    private void defineComponentsBehaviour() {
+	private void defineComponentsBehaviour() {
 
-        ClickerOnEnterKey enterKeyHandler = new ClickerOnEnterKey(signInButton);
-        usernameField.addKeyPressHandler(enterKeyHandler);
-        passwordField.addKeyPressHandler(enterKeyHandler);
+		ClickerOnEnterKey enterKeyHandler = new ClickerOnEnterKey(signInButton);
+		usernameField.addKeyPressHandler(enterKeyHandler);
+		passwordField.addKeyPressHandler(enterKeyHandler);
 
-        signInButton.addClickHandler(new ClickHandler() {
+		signInButton.addClickHandler(new ClickHandler() {
 
-            @Override
-            public void onClick(final ClickEvent event) {
+			@Override
+			public void onClick(final ClickEvent event) {
 
-                String username = usernameField.getValue();
-                String password = passwordField.getValue();
-                Window.alert("Username: " + username + " - Password:" + password);
-                History.newItem(PageToken.MAIN.toString());
-            }
-        });
-    }
+				String username = usernameField.getValue();
+				String password = passwordField.getValue();
+				Window.alert("Username: " + username + " - Password:" + password);
+				History.newItem(PageToken.MAIN.toString());
+			}
+		});
+	}
 }

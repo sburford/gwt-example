@@ -1,5 +1,5 @@
-<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.0//EN"
-		"http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.1//EN"
+		"http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
 <module rename-to="Gwt_example">
 
 	<inherits name='com.google.gwt.user.User'/>
@@ -10,6 +10,9 @@
 
 	<!--External libraries-->
 	<inherits name='com.google.common.base.Base'/>
+
+	<extend-property name="locale" values="en"/>
+	<set-property-fallback name="locale" value="en"/>
 
 	<entry-point class='it.ms.gwt_example.client.Gwt_example'/>
 

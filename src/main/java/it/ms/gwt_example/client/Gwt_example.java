@@ -43,7 +43,7 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 
 			public void onWindowClosing(final ClosingEvent event) {
 
-				event.setMessage("Ran out of history. Now leaving application, is that OK ? ");
+				event.setMessage(Messages.instance().applicationOnLeavingMessage());
 			}
 		});
 	}
