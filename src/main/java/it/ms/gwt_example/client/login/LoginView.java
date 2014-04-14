@@ -1,12 +1,10 @@
 package it.ms.gwt_example.client.login;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -20,17 +18,11 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-import it.ms.gwt_example.client.CAsyncCallback;
 import it.ms.gwt_example.client.Messages;
-import it.ms.gwt_example.client.login.presenter.LoginPresenter.LoginDisplay;
-import it.ms.gwt_example.client.navigation.Page;
-import it.ms.gwt_example.client.ServiceFacade;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
 import it.ms.gwt_example.client.components.HFlowPanel;
 import it.ms.gwt_example.client.components.VFlowPanel;
-import it.ms.gwt_example.client.navigation.Historian;
-import it.ms.gwt_example.shared.Constants;
-import it.ms.gwt_example.shared.UserDTO;
+import it.ms.gwt_example.client.login.presenter.LoginPresenter.LoginDisplay;
 
 public final class LoginView extends Composite implements LoginDisplay {
 
@@ -101,46 +93,35 @@ public final class LoginView extends Composite implements LoginDisplay {
 		return vertical;
 	}
 
+	@Override
+	public void addSignInClickHandler(final ClickHandler handler) {
+
+		signInButton.addClickHandler(handler);
+	}
+
+	@Override
+	public String username() {
+
+		return usernameField.getValue();
+	}
+
+	@Override
+	public String password() {
+
+		return usernameField.getValue();
+	}
+
+	@Override
+	public void displayInvalidCredentialsMessage() {
+
+		Window.alert(Messages.instance().loginErrorsInvalidCredentials());
+		passwordField.setValue(null);
+	}
+
 	private void defineComponentsBehaviour() {
 
 		ClickerOnEnterKey enterKeyHandler = new ClickerOnEnterKey(signInButton);
 		usernameField.addKeyPressHandler(enterKeyHandler);
 		passwordField.addKeyPressHandler(enterKeyHandler);
-
-		signInButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(final ClickEvent event) {
-
-				final String username = usernameField.getValue();
-				String password = passwordField.getValue();
-				ServiceFacade.instance().login().isAllowedAccess(username, password, new CAsyncCallback<Boolean>() {
-
-					@Override
-					public void onSuccess(final Boolean allowed) {
-
-						if (allowed == null) {
-							throw new IllegalStateException("Login RPC call should never return null");
-						}
-						if (allowed) {
-							UserDTO user = new UserDTO(username);
-							ServiceFacade.instance().sessionManagement().create(user, new CAsyncCallback<String>() {
-
-								@Override
-								public void onSuccess(final String sessionID) {
-
-									Cookies.setCookie(Constants.COOKIE_SESSION_ID, sessionID);
-									Historian.instance().goToPage(Page.MAIN);
-								}
-							});
-						} else {
-							Window.alert(Messages.instance().loginErrorsInvalidCredentials());
-							passwordField.setValue(null);
-						}
-					}
-				});
-
-			}
-		});
 	}
 }
