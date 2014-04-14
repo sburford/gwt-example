@@ -10,6 +10,9 @@ class ExceptionHandlingServiceImpl extends CService implements ExceptionHandling
 	@Override
 	public void handleClientThrowable(final Throwable throwable) {
 
+		if (throwable == null) {
+			throw new IllegalArgumentException("Throwable cannot be null");
+		}
 		// TODO properly log the throwable
 		throwable.printStackTrace(System.out);
 	}
