@@ -8,10 +8,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 
 import it.ms.gwt_example.client.CAsyncCallback;
 import it.ms.gwt_example.client.Messages;
+import it.ms.gwt_example.client.Presenter;
 import it.ms.gwt_example.client.ServiceFacade;
 import it.ms.gwt_example.shared.Constants;
 import it.ms.gwt_example.shared.UserDTO;
@@ -65,7 +65,7 @@ public final class AppController implements ValueChangeHandler<String> {
 	public void startApplication(final Panel contentPanel) {
 
 		this.contentPanel = contentPanel;
-        checkActiveSessionPresence();
+		checkActiveSessionPresence();
 	}
 
 	private void checkActiveSessionPresence() {
@@ -96,7 +96,7 @@ public final class AppController implements ValueChangeHandler<String> {
 		String tokenStr = (event.getValue() != null) ? event.getValue().trim().toUpperCase() : null;
 		Page token = (!Strings.isNullOrEmpty(tokenStr)) ? Page.valueOf(tokenStr) : Page.LOGIN;
 		contentPanel.clear();
-		Widget page = PagesMapping.instance().pageFor(token);
-		contentPanel.add(page);
+		Presenter presenter = PagesMapping.instance().responsibleFor(token);
+		contentPanel.add(presenter.view());
 	}
 }

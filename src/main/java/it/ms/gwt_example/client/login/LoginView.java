@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import it.ms.gwt_example.client.CAsyncCallback;
 import it.ms.gwt_example.client.Messages;
+import it.ms.gwt_example.client.login.presenter.LoginPresenter.LoginDisplay;
 import it.ms.gwt_example.client.navigation.Page;
 import it.ms.gwt_example.client.ServiceFacade;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
@@ -31,7 +32,7 @@ import it.ms.gwt_example.client.navigation.Historian;
 import it.ms.gwt_example.shared.Constants;
 import it.ms.gwt_example.shared.UserDTO;
 
-public final class LoginView extends Composite {
+public final class LoginView extends Composite implements LoginDisplay {
 
 	private static final LoginResources resources = GWT.create(LoginResources.class);
 
