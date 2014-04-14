@@ -1,7 +1,5 @@
 package it.ms.gwt_example.client;
 
-import it.ms.gwt_example.client.navigation.AppController;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
@@ -9,8 +7,10 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import it.ms.gwt_example.client.navigation.AppController;
 
 public final class Gwt_example implements EntryPoint {
 
@@ -31,16 +31,21 @@ public final class Gwt_example implements EntryPoint {
 
 		AppController appController = AppController.instance();
 
-		VerticalPanel content = new VerticalPanel();
-		content.setWidth("100%");
-		content.setHeight("100%");
-		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		Panel contentPanel = createContentPanel();
+		RootLayoutPanel.get().add(contentPanel);
+
+		appController.startApplication(contentPanel);
+	}
+
+	private Panel createContentPanel() {
+
+		VerticalPanel contentPanel = new VerticalPanel();
+		contentPanel.setWidth("100%");
+		contentPanel.setHeight("100%");
+		contentPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		// de-comment this if you want the whole application to be vertically centered
 		// vertical.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-
-		RootLayoutPanel.get().add(content);
-
-		appController.startApplication(content);
+		return contentPanel;
 	}
 
 	private void setUpUncaughtExceptionHandling() {
