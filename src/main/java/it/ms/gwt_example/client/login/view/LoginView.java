@@ -1,4 +1,4 @@
-package it.ms.gwt_example.client.login;
+package it.ms.gwt_example.client.login.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -22,6 +22,8 @@ import it.ms.gwt_example.client.Messages;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
 import it.ms.gwt_example.client.components.HFlowPanel;
 import it.ms.gwt_example.client.components.VFlowPanel;
+import it.ms.gwt_example.client.login.LoginResources;
+import it.ms.gwt_example.client.login.model.UserCredentials;
 import it.ms.gwt_example.client.login.presenter.LoginPresenter.LoginDisplay;
 
 public final class LoginView extends Composite implements LoginDisplay {
@@ -100,15 +102,9 @@ public final class LoginView extends Composite implements LoginDisplay {
 	}
 
 	@Override
-	public String username() {
+	public UserCredentials userCredentials() {
 
-		return usernameField.getValue();
-	}
-
-	@Override
-	public String password() {
-
-		return usernameField.getValue();
+		return new UserCredentials(usernameField.getValue(), passwordField.getValue());
 	}
 
 	@Override
