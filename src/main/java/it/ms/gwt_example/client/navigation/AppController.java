@@ -80,7 +80,6 @@ public final class AppController implements ValueChangeHandler<String> {
 					if (user != null) {
 						// TODO check if you need to display user's info
 						Historian.instance().goToPage(Page.MAIN);
-						return;
 					} else {
 						Historian.instance().goToPage(Page.LOGIN);
 					}
