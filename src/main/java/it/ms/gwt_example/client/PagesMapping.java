@@ -22,7 +22,7 @@ public final class PagesMapping {
 		// prevents control over instantiation
 	}
 
-    public Widget pageFor(final PageToken token){
+    public Widget pageFor(final Page token){
 
         if (token == null){
             throw new IllegalArgumentException("PageToken cannot be null");
@@ -35,6 +35,7 @@ public final class PagesMapping {
                 page = new LoginView();
                 break;
             case MAIN:
+                // TODO make it singleton
                 page = new Label("Main page");
                 break;
             default:

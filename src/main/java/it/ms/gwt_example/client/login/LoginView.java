@@ -6,7 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -20,13 +20,16 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-import it.ms.gwt_example.client.ServiceFacade;
 import it.ms.gwt_example.client.CAsyncCallback;
 import it.ms.gwt_example.client.Messages;
-import it.ms.gwt_example.client.PageToken;
+import it.ms.gwt_example.client.Page;
+import it.ms.gwt_example.client.ServiceFacade;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
 import it.ms.gwt_example.client.components.HFlowPanel;
 import it.ms.gwt_example.client.components.VFlowPanel;
+import it.ms.gwt_example.client.history.Historian;
+import it.ms.gwt_example.shared.Constants;
+import it.ms.gwt_example.shared.User;
 
 public final class LoginView extends Composite {
 
@@ -108,7 +111,7 @@ public final class LoginView extends Composite {
 			@Override
 			public void onClick(final ClickEvent event) {
 
-				String username = usernameField.getValue();
+				final String username = usernameField.getValue();
 				String password = passwordField.getValue();
 				ServiceFacade.instance().login().isAllowedAccess(username, password, new CAsyncCallback<Boolean>() {
 
@@ -119,7 +122,16 @@ public final class LoginView extends Composite {
 							throw new IllegalStateException("Login RPC call should never return null");
 						}
 						if (allowed) {
-							History.newItem(PageToken.MAIN.toString());
+							User user = new User(username);
+							ServiceFacade.instance().sessionManagement().create(user, new CAsyncCallback<String>() {
+
+								@Override
+								public void onSuccess(final String sessionID) {
+
+									Cookies.setCookie(Constants.COOKIE_SESSION_ID, sessionID);
+									Historian.instance().goToPage(Page.MAIN);
+								}
+							});
 						} else {
 							Window.alert(Messages.instance().loginErrorsInvalidCredentials());
 							passwordField.setValue(null);

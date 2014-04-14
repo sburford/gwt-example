@@ -9,7 +9,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.UmbrellaException;
-import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.ClosingHandler;
@@ -17,7 +17,10 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import it.ms.gwt_example.client.login.LoginView;
+
+import it.ms.gwt_example.client.history.Historian;
+import it.ms.gwt_example.shared.Constants;
+import it.ms.gwt_example.shared.User;
 
 public final class Gwt_example implements EntryPoint, ValueChangeHandler<String> {
 
@@ -38,18 +41,22 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 
 	private void afterModuleLoaded() {
 
+		startHistoryHandling();
+		setUpEventHandling();
+
 		content = new VerticalPanel();
 		content.setWidth("100%");
 		content.setHeight("100%");
 		content.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		// de-comment this if you want the whole application to be vertically centered
 		// vertical.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-
-		content.add(new LoginView());
-
 		RootLayoutPanel.get().add(content);
-		startHistoryHandling();
-		setUpEventHandling();
+
+		checkActiveSessionPresence();
+
+		// History.newItem(PageToken.LOGIN.toString());
+		// TODO check
+		// content.add(new LoginView());
 	}
 
 	private void setUpUncaughtExceptionHandling() {
@@ -67,8 +74,7 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 
 	private void startHistoryHandling() {
 
-		History.addValueChangeHandler(this);
-		History.fireCurrentHistoryState();
+		Historian.instance().addValueChangeHandler(this);
 
 		Window.addWindowClosingHandler(new ClosingHandler() {
 
@@ -79,6 +85,29 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 		});
 	}
 
+	private void checkActiveSessionPresence() {
+
+		String sessionID = Cookies.getCookie(Constants.COOKIE_SESSION_ID);
+		if (sessionID != null) {
+			ServiceFacade.instance().sessionManagement().validate(sessionID, new CAsyncCallback<User>() {
+
+				@Override
+				public void onSuccess(final User user) {
+
+					if (user != null) {
+						// TODO check if you need to display user's info
+						Historian.instance().goToPage(Page.MAIN);
+						return;
+					} else {
+						Historian.instance().goToPage(Page.LOGIN);
+					}
+				}
+			});
+		} else {
+			Historian.instance().goToPage(Page.LOGIN);
+		}
+	}
+
 	private void setUpEventHandling() {
 
 	}
@@ -87,7 +116,7 @@ public final class Gwt_example implements EntryPoint, ValueChangeHandler<String>
 	public void onValueChange(final ValueChangeEvent<String> event) {
 
 		String tokenStr = (event.getValue() != null) ? event.getValue().trim().toUpperCase() : null;
-		PageToken token = (!Strings.isNullOrEmpty(tokenStr)) ? PageToken.valueOf(tokenStr) : PageToken.LOGIN;
+		Page token = (!Strings.isNullOrEmpty(tokenStr)) ? Page.valueOf(tokenStr) : Page.LOGIN;
 		content.clear();
 		Widget page = PagesMapping.instance().pageFor(token);
 		content.add(page);

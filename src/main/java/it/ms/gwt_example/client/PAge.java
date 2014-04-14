@@ -1,6 +1,6 @@
 package it.ms.gwt_example.client;
 
-public enum PageToken {
+public enum Page {
 
     LOGIN, MAIN;
 }
