@@ -2,6 +2,8 @@ package it.ms.gwt_example.client;
 
 import com.google.gwt.core.client.GWT;
 
+import it.ms.gwt_example.shared.services.ExceptionHandlingService;
+import it.ms.gwt_example.shared.services.ExceptionHandlingServiceAsync;
 import it.ms.gwt_example.shared.services.LoginService;
 import it.ms.gwt_example.shared.services.LoginServiceAsync;
 import it.ms.gwt_example.shared.services.SessionManagementService;
@@ -21,6 +23,7 @@ public final class ServiceFacade {
 
 	private static final LoginServiceAsync login = GWT.create(LoginService.class);
 	private static final SessionManagementServiceAsync sessionManagement = GWT.create(SessionManagementService.class);
+	private static final ExceptionHandlingServiceAsync exceptions = GWT.create(ExceptionHandlingService.class);
 
 	private ServiceFacade() {
 
@@ -35,5 +38,10 @@ public final class ServiceFacade {
 	public SessionManagementServiceAsync sessionManagement() {
 
 		return sessionManagement;
+	}
+
+	public ExceptionHandlingServiceAsync exceptions() {
+
+		return exceptions;
 	}
 }

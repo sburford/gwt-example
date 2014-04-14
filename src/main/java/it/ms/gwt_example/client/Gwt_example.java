@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.UmbrellaException;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -13,6 +14,28 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import it.ms.gwt_example.client.navigation.AppController;
 
 public final class Gwt_example implements EntryPoint {
+
+	private final static UncaughtExceptionHandler LOGGER_EXCEPTION_HANDLER = new UncaughtExceptionHandler() {
+
+		@Override
+		public void onUncaughtException(final Throwable throwable) {
+
+			Throwable unwrapped = unwrap(throwable);
+			ServiceFacade.instance().exceptions().handleClientThrowable(unwrapped, new IgnoringAsyncCallback<Void>());
+			Window.alert("Error during RPC - Stack trace: \n" + throwable.getMessage());
+		}
+
+		private Throwable unwrap(final Throwable throwable) {
+
+			if (throwable instanceof UmbrellaException) {
+				UmbrellaException ue = (UmbrellaException) throwable;
+				if (ue.getCauses().size() == 1) {
+					return unwrap(ue.getCauses().iterator().next());
+				}
+			}
+			return throwable;
+		}
+	};
 
 	public void onModuleLoad() {
 
@@ -50,25 +73,6 @@ public final class Gwt_example implements EntryPoint {
 
 	private void setUpUncaughtExceptionHandling() {
 
-		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-
-			@Override
-			public void onUncaughtException(final Throwable throwable) {
-
-				Throwable unwrapped = unwrap(throwable);
-				// TODO send the exception to the back-end for logging
-			}
-		});
-	}
-
-	private Throwable unwrap(final Throwable throwable) {
-
-		if (throwable instanceof UmbrellaException) {
-			UmbrellaException ue = (UmbrellaException) throwable;
-			if (ue.getCauses().size() == 1) {
-				return unwrap(ue.getCauses().iterator().next());
-			}
-		}
-		return throwable;
+		GWT.setUncaughtExceptionHandler(LOGGER_EXCEPTION_HANDLER);
 	}
 }

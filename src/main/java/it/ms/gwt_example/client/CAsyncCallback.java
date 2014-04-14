@@ -6,9 +6,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public abstract class CAsyncCallback<T> implements AsyncCallback<T> {
 
 	@Override
-	public void onFailure(final Throwable caught) {
+	public void onFailure(final Throwable throwable) {
 
-		// TODO call server to log exception
-		Window.alert("Error during RPC - Stack trace: \n" + caught.getMessage());
+		Window.alert("Error during RPC - Stack trace: \n" + throwable.getMessage());
 	}
 }
