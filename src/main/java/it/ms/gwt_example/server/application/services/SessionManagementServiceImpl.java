@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import com.google.common.base.Strings;
 
 import it.ms.gwt_example.server.domain.UUIDSupplier;
-import it.ms.gwt_example.shared.User;
+import it.ms.gwt_example.shared.UserDTO;
 import it.ms.gwt_example.shared.services.SessionManagementService;
 
 @Named("sessionManagementService")
@@ -17,7 +17,7 @@ final class SessionManagementServiceImpl extends CService implements SessionMana
 	private UUIDSupplier uuidSupplier;
 
 	@Override
-	public String create(final User user) {
+	public String create(final UserDTO user) {
 
 		if (user == null) {
 			throw new IllegalArgumentException("User cannot be null");
@@ -29,7 +29,7 @@ final class SessionManagementServiceImpl extends CService implements SessionMana
 	}
 
 	@Override
-	public User validate(final String sessionID) {
+	public UserDTO validate(final String sessionID) {
 
 		if (Strings.isNullOrEmpty(sessionID)) {
 			throw new IllegalArgumentException("SessionID cannot be null or empty");
@@ -38,6 +38,6 @@ final class SessionManagementServiceImpl extends CService implements SessionMana
 		if (session == null) {
 			return null;
 		}
-		return (User) session.getAttribute(sessionID);
+		return (UserDTO) session.getAttribute(sessionID);
 	}
 }

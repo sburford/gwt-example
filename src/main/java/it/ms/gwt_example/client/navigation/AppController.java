@@ -14,7 +14,7 @@ import it.ms.gwt_example.client.CAsyncCallback;
 import it.ms.gwt_example.client.Messages;
 import it.ms.gwt_example.client.ServiceFacade;
 import it.ms.gwt_example.shared.Constants;
-import it.ms.gwt_example.shared.User;
+import it.ms.gwt_example.shared.UserDTO;
 
 public final class AppController implements ValueChangeHandler<String> {
 
@@ -72,10 +72,10 @@ public final class AppController implements ValueChangeHandler<String> {
 
 		String sessionID = Cookies.getCookie(Constants.COOKIE_SESSION_ID);
 		if (sessionID != null) {
-			ServiceFacade.instance().sessionManagement().validate(sessionID, new CAsyncCallback<User>() {
+			ServiceFacade.instance().sessionManagement().validate(sessionID, new CAsyncCallback<UserDTO>() {
 
 				@Override
-				public void onSuccess(final User user) {
+				public void onSuccess(final UserDTO user) {
 
 					if (user != null) {
 						// TODO check if you need to display user's info

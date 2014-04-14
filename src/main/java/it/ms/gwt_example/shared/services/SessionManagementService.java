@@ -2,26 +2,26 @@ package it.ms.gwt_example.shared.services;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import it.ms.gwt_example.shared.User;
+import it.ms.gwt_example.shared.UserDTO;
 
 @RemoteServiceRelativePath("springGwtServices/sessionManagementService")
 public interface SessionManagementService extends RemoteService {
 
 	/**
-	 * Create the session for a given {@link User}.
+	 * Create the session for a given {@link it.ms.gwt_example.shared.UserDTO}.
 	 * 
 	 * @param user
-	 *            the {@link User}
+	 *            the {@link it.ms.gwt_example.shared.UserDTO}
 	 * @return the session ID
 	 */
-	String create(User user) throws IllegalArgumentException;
+	String create(UserDTO user) throws IllegalArgumentException;
 
 	/**
-	 * Retrieve the {@link User} related to a given sessionID.
+	 * Retrieve the {@link it.ms.gwt_example.shared.UserDTO} related to a given sessionID.
 	 * 
 	 * @param sessionID
-	 *            the session ID associated with a {@link User}
-	 * @return the {@link User} found or {@code null}
+	 *            the session ID associated with a {@link it.ms.gwt_example.shared.UserDTO}
+	 * @return the {@link it.ms.gwt_example.shared.UserDTO} found or {@code null}
 	 */
-	User validate(String sessionID) throws IllegalArgumentException;
+	UserDTO validate(String sessionID) throws IllegalArgumentException;
 }

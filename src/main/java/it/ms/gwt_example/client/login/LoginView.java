@@ -29,7 +29,7 @@ import it.ms.gwt_example.client.components.HFlowPanel;
 import it.ms.gwt_example.client.components.VFlowPanel;
 import it.ms.gwt_example.client.navigation.Historian;
 import it.ms.gwt_example.shared.Constants;
-import it.ms.gwt_example.shared.User;
+import it.ms.gwt_example.shared.UserDTO;
 
 public final class LoginView extends Composite {
 
@@ -122,7 +122,7 @@ public final class LoginView extends Composite {
 							throw new IllegalStateException("Login RPC call should never return null");
 						}
 						if (allowed) {
-							User user = new User(username);
+							UserDTO user = new UserDTO(username);
 							ServiceFacade.instance().sessionManagement().create(user, new CAsyncCallback<String>() {
 
 								@Override
