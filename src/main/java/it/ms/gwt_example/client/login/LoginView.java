@@ -22,12 +22,12 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import it.ms.gwt_example.client.CAsyncCallback;
 import it.ms.gwt_example.client.Messages;
-import it.ms.gwt_example.client.Page;
+import it.ms.gwt_example.client.navigation.Page;
 import it.ms.gwt_example.client.ServiceFacade;
 import it.ms.gwt_example.client.components.CPasswordTextBox;
 import it.ms.gwt_example.client.components.HFlowPanel;
 import it.ms.gwt_example.client.components.VFlowPanel;
-import it.ms.gwt_example.client.history.Historian;
+import it.ms.gwt_example.client.navigation.Historian;
 import it.ms.gwt_example.shared.Constants;
 import it.ms.gwt_example.shared.User;
 

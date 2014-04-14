@@ -1,11 +1,11 @@
-package it.ms.gwt_example.client;
+package it.ms.gwt_example.client.navigation;
 
 import it.ms.gwt_example.client.login.LoginView;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public final class PagesMapping {
+final class PagesMapping {
 
 	public static PagesMapping instance() {
 

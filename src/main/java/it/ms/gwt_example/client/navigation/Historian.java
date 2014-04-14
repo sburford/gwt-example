@@ -1,9 +1,8 @@
-package it.ms.gwt_example.client.history;
+package it.ms.gwt_example.client.navigation;
 
 import com.google.common.base.Strings;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
-import it.ms.gwt_example.client.Page;
 
 public final class Historian {
 
