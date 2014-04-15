@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import com.google.common.base.Strings;
 
 import it.ms.gwt_example.server.domain.UUIDSupplier;
+import it.ms.gwt_example.shared.Constants.Session;
 import it.ms.gwt_example.shared.UserDTO;
 import it.ms.gwt_example.shared.services.SessionManagementService;
 
@@ -23,6 +24,7 @@ final class SessionManagementServiceImpl extends CService implements SessionMana
 			throw new IllegalArgumentException("User cannot be null");
 		}
 		HttpSession session = request().getSession(true);
+		session.setMaxInactiveInterval(Session.MAX_INACTIVE_INTERVAL_MINUTES);
 		String sessionID = uuidSupplier.get().toString();
 		session.setAttribute(sessionID, user);
 		return sessionID;
@@ -39,5 +41,14 @@ final class SessionManagementServiceImpl extends CService implements SessionMana
 			return null;
 		}
 		return (UserDTO) session.getAttribute(sessionID);
+	}
+
+	@Override
+	public void invalidateSession() {
+
+		HttpSession session = request().getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
 	}
 }

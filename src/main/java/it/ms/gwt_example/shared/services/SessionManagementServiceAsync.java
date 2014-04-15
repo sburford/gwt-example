@@ -22,4 +22,6 @@ public interface SessionManagementServiceAsync {
 	 * @return the {@link it.ms.gwt_example.shared.UserDTO} found or {@code null}
 	 */
 	void validate(String sessionID, AsyncCallback<UserDTO> callback);
+
+	void invalidateSession(AsyncCallback<Void> callback);
 }

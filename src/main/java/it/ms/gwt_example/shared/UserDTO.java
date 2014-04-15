@@ -15,7 +15,7 @@ public final class UserDTO extends DTO {
 		this.username = null;
 	}
 
-	public String getUsername() {
+	public String username() {
 
 		return username;
 	}

@@ -14,10 +14,14 @@ public interface ApplicationMessages extends Messages {
 	@Key("pages.login.signInButton.label")
 	String loginSignInButtonLabel();
 
-    @Key("pages.login.errors.invalidCredentials")
-    String loginErrorsInvalidCredentials();
+	@Key("pages.login.errors.invalidCredentials")
+	String loginErrorsInvalidCredentials();
 
 	// Application
 	@Key("application.onLeaving.message")
 	String applicationOnLeavingMessage();
+
+	// Main
+	@Key("pages.main.logoutButton.label")
+	String logoutButtonLabel();
 }

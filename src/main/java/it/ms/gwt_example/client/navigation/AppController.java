@@ -70,7 +70,7 @@ public final class AppController implements ValueChangeHandler<String> {
 
 	private void checkActiveSessionPresence() {
 
-		String sessionID = Cookies.getCookie(Constants.COOKIE_SESSION_ID);
+		String sessionID = Cookies.getCookie(Constants.Cookies.SESSION_ID);
 		if (sessionID != null) {
 			ServiceFacade.instance().sessionManagement().validate(sessionID, new CAsyncCallback<UserDTO>() {
 
@@ -78,7 +78,7 @@ public final class AppController implements ValueChangeHandler<String> {
 				public void onSuccess(final UserDTO user) {
 
 					if (user != null) {
-						// TODO check if you need to display user's info
+						Cookies.setCookie(Constants.Cookies.USERNAME, user.username());
 						Historian.instance().goToPage(Page.MAIN);
 					} else {
 						Historian.instance().goToPage(Page.LOGIN);
@@ -91,7 +91,7 @@ public final class AppController implements ValueChangeHandler<String> {
 	}
 
 	@Override
-	public void onValueChange(ValueChangeEvent<String> event) {
+	public void onValueChange(final ValueChangeEvent<String> event) {
 
 		String tokenStr = (event.getValue() != null) ? event.getValue().trim().toUpperCase() : null;
 		Page token = (!Strings.isNullOrEmpty(tokenStr)) ? Page.valueOf(tokenStr) : Page.LOGIN;

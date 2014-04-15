@@ -54,14 +54,15 @@ public class LoginPresenter implements Presenter {
                                     throw new IllegalStateException("Login RPC call should never return null");
                                 }
                                 if (allowed) {
-                                    UserDTO user = new UserDTO(credentials.username());
+                                    final UserDTO user = new UserDTO(credentials.username());
                                     ServiceFacade.instance().sessionManagement()
                                             .create(user, new CAsyncCallback<String>() {
 
                                                 @Override
                                                 public void onSuccess(final String sessionID) {
 
-                                                    Cookies.setCookie(Constants.COOKIE_SESSION_ID, sessionID);
+                                                    Cookies.setCookie(Constants.Cookies.SESSION_ID, sessionID);
+                                                    Cookies.setCookie(Constants.Cookies.USERNAME, user.username());
                                                     Historian.instance().goToPage(Page.MAIN);
                                                 }
                                             });

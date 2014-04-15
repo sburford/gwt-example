@@ -24,4 +24,9 @@ public interface SessionManagementService extends RemoteService {
 	 * @return the {@link it.ms.gwt_example.shared.UserDTO} found or {@code null}
 	 */
 	UserDTO validate(String sessionID) throws IllegalArgumentException;
+
+	/**
+	 * Invalidate the current active session, if present.
+	 */
+	void invalidateSession();
 }

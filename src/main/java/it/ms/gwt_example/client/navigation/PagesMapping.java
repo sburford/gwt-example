@@ -2,7 +2,7 @@ package it.ms.gwt_example.client.navigation;
 
 import it.ms.gwt_example.client.Presenter;
 import it.ms.gwt_example.client.login.presenter.LoginPresenter;
-import it.ms.gwt_example.client.main.MainPresenter;
+import it.ms.gwt_example.client.main.presenter.MainPresenter;
 
 final class PagesMapping {
 

@@ -48,14 +48,13 @@ public final class LoginView extends Composite implements LoginDisplay {
 		}
 	}
 
-	private DockPanel panel;
-	private TextBox usernameField;
+    private TextBox usernameField;
 	private PasswordTextBox passwordField;
 	private Button signInButton;
 
 	public LoginView() {
 
-		panel = new DockPanel();
+        DockPanel panel = new DockPanel();
 		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		panel.setSpacing(5);
